@@ -1,0 +1,13 @@
+# ignore all .csv files
+*.csv
+
+# ignore credential keys
+.json
+
+# Ignore all .parquet files
+*.parquet
+
+# Ignore Terraform provider files
+ingest_pipeline/terraform_setup/.terraform/providers/*
+ingest_pipeline/terraform_setup/.terraform.lock.hcl
+ingest_pipeline/terraform_setup/Keys/tf_keys.json
