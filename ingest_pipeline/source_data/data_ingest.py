@@ -1,8 +1,7 @@
 import os
 import requests
-from bs4 import BeautifulSoup
 from google.cloud import storage
-from urllib.parse import urljoin
+
 
 # GCP Bucket details
 BUCKET_NAME = "de-project-449017-cms-bucket"
@@ -58,11 +57,6 @@ patterns = {
     "W2": {
         "pattern": "%d W2 autumn-Cycleways.csv",
         "years": range(2022, 2025)
-    },
-    "OneOff": {
-        "files": [
-            "1 Monitoring locations.csv"
-        ]
     }
 }
 
