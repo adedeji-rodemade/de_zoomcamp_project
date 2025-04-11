@@ -57,10 +57,12 @@ patterns = {
     }
 }
 
+# Prefect task: checks if file already exists in GCP bucket
 @task
 def file_exists(file_name):
     return bucket.blob(f"{DESTINATION_FOLDER}/{file_name}").exists(client)
 
+# Prefect task: download CSV file from TFL and upload it to GCP
 @task
 def download_and_upload(file_name):
     url_safe_name = file_name.replace(" ", "%20")
@@ -75,6 +77,7 @@ def download_and_upload(file_name):
     else:
         print(f"❌ Failed to fetch: {file_url} (Status {response.status_code})")
 
+# Prefect flow: orchestrates the ETL logic by combining all the above tasks
 @flow(name="tfl-monthly-cycling-update")
 def tfl_etl_flow():
     for key, data in patterns.items():
@@ -94,5 +97,6 @@ def tfl_etl_flow():
                 if not file_exists(file_name):
                     download_and_upload(file_name)
 
+# This allows running the flow manually if needed
 if __name__ == "__main__":
     tfl_etl_flow()
