@@ -1,0 +1,57 @@
+version: 2
+
+sources:
+  - name: staging
+    database: de-project-449017
+    schema: dwh_cms_dataset
+      
+    tables:
+      - name: tfl_data
+
+models:
+  - name: stg_cycling_data
+    description: >
+      Historic cycling data from various TFL's strategic programme of active travel counts since 2014.
+    columns:
+      - name: wave
+        description: Indicates the wave (quarter or season) that the cycling count represents.
+      - name: id
+        description: Primary key for this table, generated with the concatenation of siteID and time.
+        tests:
+          - unique:
+              severity: warn
+          - not_null:
+              severity: warn
+      - name: year
+        description: year of the cycling count
+      - name: quarter
+        description: quarter of the cycling count
+      - name: season
+        description: season of the cycling count e.g autumn, spring
+      - name: siteID
+        description: unique id that identifies the monitoring count location.
+        tests:
+          - relationships:
+              to: ref('dim_location_lookup')
+              field: Site_ID
+              severity: warn
+      - name: date_of_count
+        description: Date when the count took place. This may not correspond to the wave that the count represents.
+      - name: Weather
+        description: Weather at the time and location of the count
+      - name: Day
+        description: Indicate whether the count was done on weekday or weekend
+      - name: time_of_day
+        description: Transformed field to group the time of count into morning, afternoon and night.
+      - name: Round
+        description: A code indicating the iteration of a given count location wave when multiple counts of the same location took place. Characters A to I represent weekdays while characters T to Y represent weekends.
+      - name: Direction
+        description: Direction of travel of the flows counted.
+      - name: Mode
+        description: Indicates the road user class being counted.
+      - name: active_count
+        description: total cycling active count corresponding to the wave and location.
+      - name: season_start_date
+        description: Start date of the wave. Transformed out of the year, quarter and season string of wave field. Usually start of the wave quarter.
+      - name: season_end_date
+        description: End date of the wave. Transformed out of the year, quarter and season string of wave field. Usually end of the wave quarter.
