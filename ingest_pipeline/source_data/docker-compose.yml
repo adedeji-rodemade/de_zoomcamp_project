@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: prefect
+      POSTGRES_PASSWORD: prefect
+      POSTGRES_DB: prefect
+    volumes:
+      - prefect_pg_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  prefect-server:
+    image: prefecthq/prefect:2.14.20-python3.10
+    environment:
+      PREFECT_API_DATABASE_CONNECTION_URL: postgresql+asyncpg://prefect:prefect@postgres:5432/prefect
+      PREFECT_SERVER_API_HOST: 0.0.0.0
+    command: prefect server start --host 0.0.0.0
+    ports:
+      - "4200:4200"
+    depends_on:
+      - postgres
+
+  prefect-agent:
+    build: .
+    working_dir: /app
+    command: bash prefect_init.sh
+    volumes:
+      - .:/app
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /workspaces/de_zoomcamp_project/ingest_pipeline/terraform_setup/Keys/tf_keys.json:/app/tf_keys.json
+    depends_on:
+      - prefect-server
+
+volumes:
+  prefect_pg_data:
