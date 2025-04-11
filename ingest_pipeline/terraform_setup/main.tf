@@ -18,7 +18,7 @@ provider "google" {
 
 resource "google_storage_bucket" "de-data-bucket" {
   name     = "de-project-449017-cms-bucket"
-  location = "EU"
+  location = "US"
 
   # Optional, but recommended settings:
   storage_class               = "STANDARD"
@@ -44,5 +44,5 @@ resource "google_storage_bucket" "de-data-bucket" {
 resource "google_bigquery_dataset" "cms_dataset" {
   dataset_id = "dwh_cms_dataset"
   project    = "de-project-449017"
-  location   = "EU"
+  location   = "US"
 }

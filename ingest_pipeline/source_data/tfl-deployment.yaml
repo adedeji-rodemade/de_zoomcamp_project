@@ -1,0 +1,45 @@
+###
+### A complete description of a Prefect Deployment for flow 'tfl-monthly-cycling-update'
+###
+name: monthly-tfl-update
+description: null
+version: 93f151b320348639e7e31f3742f094b1
+# The work queue that will handle this deployment's runs
+work_queue_name: default
+work_pool_name: default-agent-pool
+tags: []
+parameters: {}
+schedule:
+  cron: 0 23 28-31 * *
+  timezone: null
+  day_or: true
+is_schedule_active: null
+infra_overrides: {}
+infrastructure:
+  type: process
+  env: {}
+  labels: {}
+  name: null
+  command: null
+  stream_output: true
+  working_dir: null
+  block_type_slug: process
+  _block_type_slug: process
+
+###
+### DO NOT EDIT BELOW THIS LINE
+###
+flow_name: tfl-monthly-cycling-update
+manifest_path: null
+storage: null
+path: /app
+entrypoint: tfl_ingest.py:tfl_etl_flow
+parameter_openapi_schema:
+  title: Parameters
+  type: object
+  properties: {}
+  required: null
+  definitions: null
+timestamp: '2025-04-11T11:59:07.659187+00:00'
+triggers: []
+enforce_parameter_schema: null
