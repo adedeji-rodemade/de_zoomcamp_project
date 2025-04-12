@@ -86,7 +86,7 @@ The final product supports stakeholders in:
 ## 🚀 Getting Started
 
 ### Prerequisites
-- GCP project + service account key 
+- GCP project + Authentication 
 - Installations: Docker, Prefect, Terraform
 
 ### Setup
