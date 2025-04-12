@@ -2,7 +2,7 @@
 
 ## 📀 Overview
 
-This project is the final capstone project of the DataTalksClub DE Zoomcamp. It's a complete end-to-end data engineering pipeline built to ingest, transform, and visualize cycling data from the [Transport for London (TfL) Active Travel Counts Programme](https://cycling.data.tfl.gov.uk/). The pipeline automates the collection of quarterly and seasonal cycling count data available as CSV files on the TfL open data portal and enables efficient analysis of long-term trends in cycling activity across London.
+This project is a complete end-to-end data engineering pipeline built to ingest, transform, and visualize cycling data from the [Transport for London (TfL) Active Travel Counts Programme](https://cycling.data.tfl.gov.uk/). The pipeline automates the collection of quarterly and seasonal cycling count data available as CSV files on the TfL open data portal and enables efficient analysis of long-term trends in cycling activity across London.
 
 ## 📊 Problem Statement
 
@@ -53,6 +53,8 @@ The final product supports stakeholders in:
 - **Staging models** clean and cast columns from the external source table
 - **Fact models** summarize cycling counts and segment them by different dimensions for quick dashboard exploration.
 
+![dbt models](image.png)
+
 > 📄 dbt models are built and versioned in **dbt Cloud** for CI/CD and documentation
 
 ### 4. 📅 Dashboard Development
@@ -65,7 +67,7 @@ The final product supports stakeholders in:
   - Year, Quarter, and Season
   - Borough-specific observations
 
-> 📄 See [`tfl-dashboard`](./tfl-dashboard) jpg for overview of the insights.
+> 📄 See [`tfl-dashboard`](./tfl-dashboard.jpg) for overview of the insights.
 
 ---
 
@@ -102,7 +104,7 @@ terraform init
 terraform apply
 ```
 
-### Run the Flow Locally via Docker Compose
+### Run the Data Ingestion Flow Locally via Docker Compose
 ```bash
 docker-compose up --build
 ```
@@ -112,6 +114,15 @@ Access Prefect UI via forwarded port:
 http://127.0.0.1:4200
 ```
 Trigger the `tfl-monthly-cycling-update` flow manually or let it run at month-end automatically.
+
+---
+
+You can also run the flow manually inside the container directly with the command below:
+```
+docker exec -it source_data-prefect-agent-1 /bin/bash
+prefect deployment run 'tfl-monthly-cycling-update/monthly-tfl-update'
+```
+This will start a manual run of your flow immediately.
 
 ---
 
